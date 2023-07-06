@@ -1,3 +1,10 @@
+/*  COMP229 - MidTerm (Favourite Book List)
+    Author: Chi Shing Chan
+    Student ID # 301268811
+    Date: 05 Jul, 2023
+    File: Scripts/app.js
+ */
+
 /* custom JS goes here */
 
 /* pagination code from http://www.bootply.com/lxa0FF9yhw */
@@ -108,7 +115,7 @@ $.fn.pageMe = function(opts){
   $(".btn-danger").click(function(event){
     if(!confirm("Are you sure?")) {
       event.preventDefault();
-      window.location.assign("/games");
+      window.location.assign("/books");
     }
   });
 
