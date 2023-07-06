@@ -1,3 +1,10 @@
+/*  COMP229 - MidTerm (Favourite Book List)
+    Author: Chi Shing Chan
+    Student ID # 301268811
+    Date: 05 Jul, 2023
+    File: routes/books.js
+ */
+
 // modules required for routing
 let express = require('express');
 let router = express.Router();
@@ -29,9 +36,10 @@ router.get('/add', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+    // Render detail page with empty book information
     res.render('books/details', {
       title: 'Add a Book',
-      books: new book(),
+      books: '',
     });
 });
 
@@ -41,6 +49,7 @@ router.post('/add', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+    // Save the inputted book details to MongoDB
     let newBook = new book({
       Title: req.body.title,
       Price: req.body.price,
@@ -63,6 +72,19 @@ router.get('/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+    // Retrieve the existing books information
+    let bookID = req.params.id;
+
+    book.findById(bookID, (err, existingBook) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.render('books/details', {
+          title: 'Edit an existing Book',
+          books: existingBook
+        });
+      }
+    });
 });
 
 // POST - process the information passed from the details form and update the document
@@ -71,6 +93,23 @@ router.post('/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+    // Update the book information
+    let bookID = req.params.id;
+
+    let updatedBook = {
+      Title: req.body.title,
+      Price: req.body.price,
+      Author: req.body.author,
+      Genre: req.body.genre
+    };
+  
+    book.findByIdAndUpdate(bookID, updatedBook, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
 });
 
 // GET - process the delete by user id
@@ -79,7 +118,16 @@ router.get('/delete/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+    // Remove the identified book record from MongoDB
+    let bookID = req.params.id;
 
+    book.findByIdAndRemove(bookID, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
 });
 
 
