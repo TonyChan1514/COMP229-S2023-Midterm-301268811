@@ -29,7 +29,10 @@ router.get('/add', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
-
+    res.render('books/details', {
+      title: 'Add a Book',
+      books: new book(),
+    });
 });
 
 // POST process the Book Details page and create a new Book - CREATE
@@ -38,7 +41,20 @@ router.post('/add', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
-
+    let newBook = new book({
+      Title: req.body.title,
+      Price: req.body.price,
+      Author: req.body.author,
+      Genre: req.body.genre
+    });
+  
+    newBook.save((err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
 });
 
 // GET the Book Details page in order to edit an existing Book
@@ -55,7 +71,6 @@ router.post('/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
-
 });
 
 // GET - process the delete by user id
@@ -64,6 +79,7 @@ router.get('/delete/:id', (req, res, next) => {
     /*****************
      * ADD CODE HERE *
      *****************/
+
 });
 
 
